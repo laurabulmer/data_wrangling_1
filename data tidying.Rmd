@@ -7,3 +7,46 @@ output: github_document
 library(tidyverse)
 ```
 
+## pivot_longer
+
+load the PULSE data
+
+```{r}
+pulse_df = 
+  haven :: read_sas("./data/public_pulse_Data.sas7bdat") %>% 
+  janitor :: clean_names()
+pulse_df
+```
+
+wide format to long format...
+
+```{r}
+pulse_data_tidy =
+  pulse_df %>% 
+  pivot_longer(
+    bdi_score_bl:bdi_score_12m, 
+    names_to = "visit",
+    names_prefix = "bdi_score_",
+    values_to = "bdi"
+  )
+pulse_data_tidy
+```
+combining and extending all into one
+recode lets you change observations
+
+```{r}
+pulse_df = 
+  haven :: read_sas("./data/public_pulse_Data.sas7bdat") %>% 
+  janitor :: clean_names() %>% 
+  pivot_longer(
+    bdi_score_bl:bdi_score_12m, 
+    names_to = "visit",
+    names_prefix = "bdi_score_",
+    values_to = "bdi"
+  ) %>% 
+  relocate(id, visit) %>% 
+  mutate (visit = recode(visit, "bl" = "00m"))
+pulse_df
+```
+
+
