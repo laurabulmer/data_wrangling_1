@@ -10,7 +10,7 @@ library(tidyverse)
 ## Load the FAS_litters data
 
 ```{r}
-litters_df = read_csv("./data/FAS_litters.csv")
+litters_df = read_csv("./data/FAS_litters.csv", na = c("NA", ".", ""))
 litters_df = janitor :: clean_names(litters_df)
 litters_df
 ```
@@ -86,3 +86,27 @@ this says where group is either of these two options
 ```{r}
 filter(litters_df, group %in% c("Con7", "Mod8"))
 ```
+
+## 'mutate'
+```{r}
+litters_df
+```
+
+```{r}
+drop_na(litters_df)
+mutate(litters_df,
+  wt_gain = gd18_weight - gd0_weight,
+  group = str_to_lower(group)
+)
+```
+
+## 'arrange'
+
+```{r}
+arrange(litters_df, pups_born_alive)
+```
+
+
+
+
+
