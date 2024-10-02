@@ -7,3 +7,82 @@ output: github_document
 library(tidyverse)
 ```
 
+## Load the FAS_litters data
+
+```{r}
+litters_df = read_csv("./data/FAS_litters.csv")
+litters_df = janitor :: clean_names(litters_df)
+litters_df
+```
+
+## 'select'
+
+Chose some columns and not others.
+
+```{r}
+select(litters_df, group, gd0_weight:gd_of_birth)
+select(litters_df, -litter_number)
+```
+
+Renaming columns
+
+```{r}
+select(litters_df, GROUP = group, LITTer_NuMBer = litter_number)
+```
+
+can also use rename if you want to rename a few without getting rid of the rest of the columns
+
+```{r}
+rename(litters_df, GROUP = group, LITTer_NuMBer = litter_number)
+```
+
+select helpers
+
+```{r}
+select(litters_df, starts_with("gd"))
+```
+
+moves the column you want up to the front
+```{r}
+select(litters_df, litter_number, everything())
+```
+
+relocate a column to the beginning or other places
+```{r}
+relocate(litters_df, litter_number)
+```
+
+basically there are a bunch of helper functions that do things that you can also do with select.
+
+## 'filter'
+
+while select operates on columns, filter operates on rows. filter needs conditions (true/false)
+
+```{r}
+filter(litters_df, gd0_weight >= 22)
+```
+
+use the double equal sign when posing the question , rather than telling it to set things equal to 20
+
+```{r}
+filter(litters_df, gd_of_birth == 20)
+```
+
+adding the exclamation point outside of the parenthesis does the opposite, gives you everything where its not equal to 20. we also added a second way to do this below
+```{r}
+filter(litters_df, !(gd_of_birth == 20))
+filter(litters_df, gd_of_birth != 20)
+```
+
+```{r}
+filter(litters_df, gd0_weight >=22, gd_of_birth==20)
+```
+
+```{r}
+filter(litters_df, group == "Mod8")
+```
+
+this says where group is either of these two options
+```{r}
+filter(litters_df, group %in% c("Con7", "Mod8"))
+```
