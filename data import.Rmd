@@ -5,6 +5,8 @@ output: github_document
 
 ```{r setup}
 library(tidyverse)
+library (readxl)
+library(haven)
 ```
 
 ## Read in some data
@@ -18,4 +20,42 @@ litters_df = janitor :: clean_names(litters_df)
 
 ## Take a look at the data.
 
+Printing in the console
+
+```{r}
+litters_df
+```
+
+```{r}
+head(litters_df)
+tail(litters_df)
+```
+
+```{r}
+skimr::skim(litters_df)
+```
+
+## Options to read_csv
+
+Look at ?read_csv for more information. You run this in the console and the help file pops up.
+
+```{r}
+litters_df = read_csv("./data/FAS_litters.csv", skip = 10, col_names = FALSE)
+```
+
+## Other file formats 
+
+Read in an excel file. I loaded the readxl library at the top for neatness sake. 
+
+```{r}
+mlb_df = read_excel("./data/mlb11.xlsx", range = "A1:F7")
+mlb_df
+```
+
+Read in a SAS file
+
+```{r}
+pulse_df = read_sas("./data/public_pulse_data.sas7bdat")
+pulse_df
+```
 
