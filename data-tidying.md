@@ -102,3 +102,25 @@ pulse_df
     ##  9 10022 00m    58.5 male     14
     ## 10 10022 01m    58.5 male      3
     ## # ℹ 4,338 more rows
+
+## pivot wider now
+
+``` r
+analysis_result =
+  tibble(
+    group = c("treatment", "treatment", "placebo", "placebo"),
+    time = c("pre", "post", "pre", "post"),
+    mean = c(4,8,3.5,4)
+  )
+analysis_result %>% 
+  pivot_wider(
+    names_from = "time", 
+    values_from = "mean"
+  )
+```
+
+    ## # A tibble: 2 × 3
+    ##   group       pre  post
+    ##   <chr>     <dbl> <dbl>
+    ## 1 treatment   4       8
+    ## 2 placebo     3.5     4
